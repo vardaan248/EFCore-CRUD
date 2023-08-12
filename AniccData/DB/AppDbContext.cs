@@ -5,18 +5,18 @@ namespace AniccData.DB
 {
     public class AppDbContext : DbContext
     {
-        //private IConfiguration Configuration { get; set; }
-
-        public AppDbContext()
-        {
-            //Configuration = configuration;
-        }
-
         public DbSet<StudentCSV> StudentsCSV { get; set; }
+
+        private IConfiguration Configuration { get; set; }
+
+        public AppDbContext(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=.;Initial Catalog=StudentDB;Integrated Security=True;Encrypt=False");
+            optionsBuilder.UseSqlServer(this.Configuration.GetConnectionString("StudentDB"));
         }
     }
 }

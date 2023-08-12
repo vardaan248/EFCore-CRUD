@@ -7,10 +7,12 @@ namespace AniccData.Services
     public class StudentService : IStudentService
     {
         private AppDbContext DbContext { get; set; }
+        private IConfiguration configuration { get; set; }
 
-        public StudentService()
+        public StudentService(IConfiguration configuration)
         {
-            this.DbContext = new AppDbContext();
+            this.configuration = configuration;
+            this.DbContext = new AppDbContext(this.configuration);
         }
 
         public bool AddStudent(StudentCSV student)
